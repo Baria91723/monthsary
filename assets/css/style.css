@@ -1,0 +1,706 @@
+/* ==========================================
+   ANNIVERSARY KEEPSAKE - DESIGN SYSTEM & STYLES
+   ========================================== */
+
+:root {
+  --paper: #F8F4EE;
+  --paper-dark: #ECE3D4;
+  --paper-card: #FAF7F2;
+  --ink: #241F1A;
+  --ink-soft: #5D5346;
+  --ink-muted: #8A7E70;
+  --rose: #C88A98;
+  --rose-deep: #7D2D3F;
+  --rose-light: #F4E8EB;
+  --gold: #B89255;
+  --gold-soft: #DFC293;
+  --seal: #8A2437;
+  --shadow-soft: 0 10px 30px -10px rgba(36, 31, 26, 0.12);
+  --shadow-deep: 0 20px 40px -15px rgba(36, 31, 26, 0.28);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--paper);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(200, 138, 152, 0.08), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(184, 146, 85, 0.08), transparent 45%);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  position: relative;
+}
+
+::selection {
+  background: var(--rose-deep);
+  color: var(--paper);
+}
+
+/* Canvas Background for Floating Petals */
+#petalCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+/* ==========================================
+   TOP NAVIGATION BAR
+   ========================================== */
+.top-bar {
+  position: fixed;
+  top: 1rem; right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 100;
+}
+
+.pill-btn {
+  background: rgba(248, 244, 238, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(138, 36, 55, 0.18);
+  color: var(--rose-deep);
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-smooth);
+  text-decoration: none;
+}
+
+.pill-btn:hover {
+  background: #FFFFFF;
+  color: #5C1D2C;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(125, 45, 63, 0.25);
+}
+
+.pill-btn svg {
+  width: 16px; height: 16px;
+  fill: currentColor;
+}
+
+/* ==========================================
+   STAGE 1: THE ENVELOPE INTRO
+   ========================================== */
+.stage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.stage.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-40px);
+  position: absolute;
+  width: 100%;
+}
+
+.envelope-wrapper {
+  text-align: center;
+  animation: fadeInStage 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeInStage {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.envelope {
+  position: relative;
+  width: min(90vw, 360px);
+  height: min(60vw, 240px);
+  margin: 0 auto 2rem;
+  background: linear-gradient(180deg, #EFE3D0, #E2D3BB);
+  border: 1px solid rgba(36, 31, 26, 0.12);
+  border-radius: 6px;
+  box-shadow: 0 24px 48px -18px rgba(36, 31, 26, 0.35);
+  perspective: 1000px;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(135deg, transparent 49.5%, rgba(36, 31, 26, 0.06) 50%, transparent 50.5%),
+    linear-gradient(-135deg, transparent 49.5%, rgba(36, 31, 26, 0.06) 50%, transparent 50.5%);
+  pointer-events: none;
+}
+
+.flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  border-left: calc(min(90vw, 360px) / 2) solid transparent;
+  border-right: calc(min(90vw, 360px) / 2) solid transparent;
+  border-top: min(30vw, 122px) solid #DECEB4;
+  transform-origin: top center;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 3px 5px rgba(36,31,26,0.12));
+  z-index: 3;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.seal-btn {
+  position: absolute;
+  top: min(21vw, 86px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #A3354C, var(--seal) 75%);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3), inset 0 0 0 2px rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  border: none;
+  color: #F8E5CE;
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+}
+
+.seal-btn:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 8px 20px rgba(138, 36, 55, 0.4), inset 0 0 0 2px rgba(255,255,255,0.25);
+}
+
+.envelope.open .seal-btn {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.to-tag {
+  position: absolute;
+  bottom: 20px; left: 24px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+
+.date-tag {
+  position: absolute;
+  bottom: 18px; right: 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  opacity: 0.7;
+  transform: rotate(-4deg);
+}
+
+.prompt-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* ==========================================
+   STAGE 2: MAIN SCENE & SECTIONS
+   ========================================== */
+.letter-scene {
+  display: none;
+  opacity: 0;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 6rem;
+  position: relative;
+  z-index: 2;
+  transition: opacity 1s ease;
+}
+
+.letter-scene.visible {
+  display: block;
+  opacity: 1;
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-card {
+  background: var(--paper-card);
+  border: 1px solid rgba(36, 31, 26, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  margin-bottom: 3.5rem;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .section-card { padding: 2rem 1.25rem; }
+}
+
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rose-deep);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* Letter Body Section */
+.letter-content h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: 1.15;
+  margin-bottom: 2rem;
+  color: var(--ink);
+}
+
+.salutation {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--rose-deep);
+  margin-bottom: 1.5rem;
+}
+
+.letter-body-p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: var(--ink);
+  margin-bottom: 1.6rem;
+}
+
+.letter-body-p:first-of-type::first-letter {
+  font-family: 'Fraunces', serif;
+  font-size: 3.6rem;
+  font-weight: 600;
+  float: left;
+  line-height: 0.8;
+  margin: 0.1rem 0.6rem 0 0;
+  color: var(--rose-deep);
+}
+
+.signoff {
+  margin-top: 3rem;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+}
+
+.signoff .signature-name {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--rose-deep);
+}
+
+/* ==========================================
+   ANNIVERSARY COUNTER SECTION
+   ========================================== */
+.counter-title {
+  text-align: center;
+  font-family: 'Fraunces', serif;
+  font-size: 1.8rem;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  color: var(--ink);
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .counter-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.counter-box {
+  background: rgba(248, 244, 238, 0.7);
+  border: 1px solid rgba(184, 146, 85, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 0.75rem;
+}
+
+.counter-num {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--rose-deep);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.counter-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+/* ==========================================
+   TIMELINE SECTION ("OUR JOURNEY")
+   ========================================== */
+.timeline {
+  position: relative;
+  margin-top: 2rem;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 7px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--rose) 0%, var(--gold) 100%);
+  opacity: 0.4;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2.2rem;
+}
+
+.timeline-item:last-child { margin-bottom: 0; }
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem; top: 4px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--paper-card);
+  border: 3px solid var(--rose-deep);
+  box-shadow: 0 0 0 4px rgba(200, 138, 152, 0.2);
+}
+
+.timeline-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.timeline-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.timeline-desc {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* ==========================================
+   REASONS WHY I LOVE YOU (FLIP CARDS)
+   ========================================== */
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.reason-card {
+  perspective: 1000px;
+  height: 160px;
+  cursor: pointer;
+}
+
+.reason-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  border-radius: var(--radius-md);
+}
+
+.reason-card.flipped .reason-inner {
+  transform: rotateY(180deg);
+}
+
+.reason-front, .reason-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgba(36, 31, 26, 0.1);
+}
+
+.reason-front {
+  background: linear-gradient(135deg, #FAF4EB, #F2E5D5);
+  color: var(--rose-deep);
+  box-shadow: var(--shadow-soft);
+}
+
+.reason-front span.num {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.reason-front p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+}
+
+.reason-back {
+  background: var(--rose-deep);
+  color: var(--paper);
+  transform: rotateY(180deg);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.5;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ==========================================
+   POLAROID GALLERY & LIGHTBOX
+   ========================================== */
+.polaroids-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.polaroid-item {
+  background: #FBF8F2;
+  padding: 12px 12px 36px;
+  box-shadow: 0 16px 32px -16px rgba(36, 31, 26, 0.4);
+  border: 1px solid rgba(0,0,0,0.05);
+  width: min(100%, 210px);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border-radius: 3px;
+}
+
+.polaroid-item:nth-child(1) { transform: rotate(-3deg); }
+.polaroid-item:nth-child(2) { transform: rotate(2deg); margin-top: 0.75rem; }
+.polaroid-item:nth-child(3) { transform: rotate(-2deg); }
+
+.polaroid-item:hover {
+  transform: rotate(0deg) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 22px 40px -18px rgba(125, 45, 63, 0.35);
+}
+
+.polaroid-item img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
+.polaroid-item figcaption {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Lightbox Modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 20, 17, 0.88);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-deep);
+}
+
+.lightbox-caption {
+  color: var(--paper);
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px; right: 0;
+  background: none;
+  border: none;
+  color: var(--paper);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ==========================================
+   KEEPSAKE AUDIO PLAYER SECTION
+   ========================================== */
+.keepsake-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: rgba(248, 244, 238, 0.9);
+  border: 1px solid rgba(184, 146, 85, 0.3);
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 3.5rem;
+}
+
+.play-trigger {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--rose-deep);
+  background: var(--rose-deep);
+  color: var(--paper);
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(125, 45, 63, 0.3);
+}
+
+.play-trigger:hover {
+  transform: scale(1.06);
+  background: #622230;
+}
+
+.keepsake-info {
+  flex-grow: 1;
+}
+
+.keepsake-info strong {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.keepsake-info span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+.eq-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+}
+
+.eq-bars span {
+  width: 3px;
+  background: var(--rose);
+  border-radius: 2px;
+  height: 6px;
+  transition: height 0.2s ease;
+}
+
+.keepsake-card.playing .eq-bars span {
+  animation: barPulse 1.2s ease-in-out infinite alternate;
+}
+
+.keepsake-card.playing .eq-bars span:nth-child(1) { animation-delay: 0.1s; }
+.keepsake-card.playing .eq-bars span:nth-child(2) { animation-delay: 0.3s; }
+.keepsake-card.playing .eq-bars span:nth-child(3) { animation-delay: 0.5s; }
+.keepsake-card.playing .eq-bars span:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes barPulse {
+  0% { height: 4px; }
+  100% { height: 20px; }
+}
+
+

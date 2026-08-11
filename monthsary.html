@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Hon (MLOML) — An Anniversary Keepsake</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- External Stylesheet -->
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<!-- Canvas for Floating Petals -->
+<canvas id="petalCanvas"></canvas>
+
+<!-- Top Fixed Controls -->
+<div class="top-bar">
+  <button class="pill-btn" id="audioToggle" aria-label="Toggle ambient music">
+    <svg id="audioIcon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    <span id="audioLabel">Play Music</span>
+  </button>
+</div>
+
+<!-- STAGE 1: INTRO ENVELOPE -->
+<section class="stage" id="stage">
+  <div class="envelope-wrapper">
+    <div class="envelope" id="envelope">
+      <div class="to-tag" id="envelopeToTag">To: My Hon</div>
+      <div class="date-tag" id="envelopeDateTag">Est. 2023</div>
+      <div class="flap"></div>
+      <button class="seal-btn" id="sealBtn" aria-label="Open Letter">✦</button>
+    </div>
+    <p class="prompt-text">Tap the seal to open</p>
+  </div>
+</section>
+
+<!-- STAGE 2: MAIN SCENE -->
+<main class="letter-scene" id="letterScene">
+  
+  <!-- SECTION 1: THE MAIN LETTER -->
+  <article class="section-card letter-content">
+    <span class="eyebrow" id="letterEyebrow">Our Anniversary</span>
+    <h1 id="letterTitle">Every year, the same answer: you.</h1>
+    <p class="salutation" id="letterSalutation">My Hon,</p>
+    <div id="letterParagraphs"></div>
+    <p class="signoff">Forever yours,<span class="signature-name" id="signatureName">Always You</span></p>
+  </article>
+
+  <!-- SECTION 2: TOGETHER COUNTER -->
+  <section class="section-card">
+    <span class="eyebrow" style="text-align: center;">Time We've Shared</span>
+    <h2 class="counter-title">Countless moments, one story</h2>
+    <div class="counter-grid">
+      <div class="counter-box">
+        <div class="counter-num" id="cntDays">0</div>
+        <div class="counter-label">Days</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-num" id="cntHours">0</div>
+        <div class="counter-label">Hours</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-num" id="cntMins">0</div>
+        <div class="counter-label">Minutes</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-num" id="cntSecs">0</div>
+        <div class="counter-label">Seconds</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: OUR JOURNEY TIMELINE -->
+  <section class="section-card">
+    <span class="eyebrow">Our Story</span>
+    <h2 class="counter-title" style="text-align: left; margin-bottom: 2rem;">Milestones of Us</h2>
+    <div class="timeline" id="timelineContainer"></div>
+  </section>
+
+  <!-- SECTION 4: REASONS WHY I LOVE YOU (INTERACTIVE FLIP CARDS) -->
+  <section class="section-card">
+    <span class="eyebrow">Little Reminders</span>
+    <h2 class="counter-title" style="text-align: left;">Why I Love You</h2>
+    <p style="color: var(--ink-soft); font-size: 1rem; margin-bottom: 1.5rem;">Tap each card to reveal a secret note.</p>
+    <div class="reasons-grid" id="reasonsGrid"></div>
+  </section>
+
+  <!-- SECTION 5: POLAROID GALLERY -->
+  <section class="section-card">
+    <span class="eyebrow">Captured Memories</span>
+    <h2 class="counter-title" style="text-align: left;">Snapshot Moments</h2>
+    <div class="polaroids-container" id="polaroidContainer"></div>
+  </section>
+
+  <!-- SECTION 6: KEEPSAKE AUDIO PLAYER -->
+  <div class="keepsake-card" id="keepsakePlayer">
+    <button class="play-trigger" id="keepsakePlayBtn" aria-label="Play romantic ambient music">▶</button>
+    <div class="keepsake-info">
+      <strong>Ambient Memory Melody</strong>
+      <span>Native acoustic synth • Built for reading</span>
+    </div>
+    <div class="eq-bars">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+</main>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox" id="lightboxModal">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <img id="lightboxImg" src="" alt="Expanded photo preview">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<!-- Secret Admin Shortcut Logic -->
+<script>
+  // Secret Shortcut 1: Press Ctrl + Shift + A on keyboard to open Admin Dashboard
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      window.location.href = 'admin/admin.html';
+    }
+  });
+
+  // Secret Shortcut 2: Triple click on "Snapshot Moments" title
+  let clickCount = 0;
+  let clickTimer = null;
+  document.addEventListener('DOMContentLoaded', () => {
+    const titles = document.querySelectorAll('.counter-title');
+    if (titles && titles.length > 0) {
+      const trigger = titles[titles.length - 1]; // Last title
+      trigger.addEventListener('click', () => {
+        clickCount++;
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+        if (clickCount >= 3) {
+          window.location.href = 'admin/admin.html';
+        }
+      });
+    }
+  });
+</script>
+
+<!-- Scripts -->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
