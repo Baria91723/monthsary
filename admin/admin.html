@@ -234,7 +234,7 @@
       <h1>Anniversary Admin Panel</h1>
       <p style="font-size: 0.85rem; color: var(--ink-soft);">Customize any text, dates, photos, and notes on your website.</p>
     </div>
-    <a href="../monsary.html" class="view-btn">View Site ↗</a>
+    <a href="../monthsary.html" class="view-btn">View Site ↗</a>
   </header>
 
   <!-- 1. GENERAL INFORMATION -->
@@ -294,7 +294,7 @@
   <section class="card">
     <h2>6. Your Gift QR Code</h2>
     <div class="qr-card-section">
-      <p style="font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.75rem;">Scanning this QR code on any phone opens your main <code>monsary.html</code> website directly.</p>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.75rem;">Scanning this QR code on any phone opens your main <code>monthsary.html</code> website directly.</p>
       
       <div class="form-group" style="max-width: 500px; margin: 0 auto 1rem;">
         <label for="qrTargetUrl">Target Public Web Link</label>
@@ -326,7 +326,7 @@
     document.getElementById('adminLetterParagraphs').value = (config.letterParagraphs || []).join('\n\n');
 
     // Default target URL is index.html location
-    const defaultUrl = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monsary.html');
+    const defaultUrl = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
     const targetUrlInput = document.getElementById('qrTargetUrl');
     targetUrlInput.value = localStorage.getItem('ANNIVERSARY_QR_URL') || defaultUrl;
 
@@ -342,7 +342,7 @@
     const targetUrlInput = document.getElementById('qrTargetUrl');
     let url = targetUrlInput.value.trim();
     if (!url) {
-      url = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monsary.html');
+      url = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
     }
     localStorage.setItem('ANNIVERSARY_QR_URL', url);
 
@@ -453,7 +453,7 @@
     config.letterParagraphs = document.getElementById('adminLetterParagraphs').value.split('\n\n').filter(p => p.trim());
 
     localStorage.setItem('ANNIVERSARY_CUSTOM_CONFIG', JSON.stringify(config));
-    window.location.href = "../monsary.html";
+    window.location.href = "../monthsary.html";
   });
 
   // Reset logic
