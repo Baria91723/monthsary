@@ -9,42 +9,33 @@ class KeepsakeAudioEngine {
 
     if (!this.mediaElement) {
       try {
-        const isVideo = /\.(mp4|webm|mov|m4v)$/i.test(this.musicUrl);
-        this.mediaElement = document.createElement(isVideo ? 'video' : 'audio');
+        this.mediaElement = document.createElement('audio');
         this.mediaElement.id = 'bgAudioMedia';
         this.mediaElement.src = this.musicUrl;
         this.mediaElement.loop = true;
         this.mediaElement.preload = 'auto';
         this.mediaElement.setAttribute('playsinline', '');
-        this.mediaElement.setAttribute('webkit-playsinline', '');
-        this.mediaElement.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0.001;pointer-events:none;z-index:-1;';
         document.body.appendChild(this.mediaElement);
       } catch (err) {
         console.warn("Could not create media element:", err);
       }
-    } else {
-      // Ensure volume is up and unmuted
+    }
+
+    if (this.mediaElement) {
       this.mediaElement.volume = 1.0;
       this.mediaElement.muted = false;
-      if (this.musicUrl && !this.mediaElement.src.includes(this.musicUrl)) {
-    // Continuous infinite loop listeners
-    if (this.mediaElement) {
       this.mediaElement.loop = true;
+      this.mediaElement.preload = 'auto';
+
       this.mediaElement.addEventListener('ended', () => {
         if (this.isPlaying) {
           this.mediaElement.currentTime = 0;
           this.mediaElement.play().catch(() => {});
         }
       });
-      // Prevent browser throttling interruption
-      this.mediaElement.addEventListener('pause', () => {
-        // If it was supposed to be playing and reached end, restart
-        if (this.isPlaying && this.mediaElement.currentTime >= (this.mediaElement.duration - 0.5)) {
-          this.mediaElement.currentTime = 0;
-          this.mediaElement.play().catch(() => {});
-        }
-      });
     }
+
+    this.isPlaying = false;
   }
 
   toggle(onStateChange) {
