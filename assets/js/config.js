@@ -31,11 +31,11 @@ window.ANNIVERSARY_CONFIG = {
     { num: "06", short: "Just You", full: "No explanation needed, just the fact that you exist is already enough." }
   ],
   photos: [
-    { url: "picture/download (11).jfif", caption: "First Meet Up 🌟" },
-    { url: "picture/download (12).jfif", caption: "Cute Pic Kiss 💋" },
-    { url: "picture/download (13).jfif", caption: "First Date 🌹" }
+    { url: "picture/photo1.jpg", caption: "First Meet Up 🌟" },
+    { url: "picture/photo2.jpg", caption: "Cute Pic Kiss 💋" },
+    { url: "picture/photo3.jpg", caption: "First Date 🌹" }
   ],
-  musicUrl: "picture/video_2026-08-20_10-30-19.mp4",
+  musicUrl: "picture/music.mp4",
   musicTitle: "Our Special Melody",
   musicSubtitle: "Special Keepsake Song • Playing for you"
 };
