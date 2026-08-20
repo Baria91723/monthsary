@@ -34,7 +34,10 @@ window.ANNIVERSARY_CONFIG = {
     { url: "picture/download (11).jfif", caption: "First Meet Up 🌟" },
     { url: "picture/download (12).jfif", caption: "Cute Pic Kiss 💋" },
     { url: "picture/download (13).jfif", caption: "First Date 🌹" }
-  ]
+  ],
+  musicUrl: "picture/video_2026-08-20_10-30-19.mp4",
+  musicTitle: "Our Special Melody",
+  musicSubtitle: "Special Keepsake Song • Playing for you"
 };
 
 // Load admin saved custom data from localStorage if available

@@ -307,9 +307,29 @@
       <button class="add-item-btn" id="addPhotoBtn">+ Add Photo</button>
     </section>
 
-    <!-- 6. QR CODE FOR YOUR GIFT WEBSITE -->
+    <!-- 6. MUSIC & AUDIO SETTINGS -->
     <section class="card">
-      <h2>6. Your Gift QR Code</h2>
+      <h2>6. Background Music & Sound</h2>
+      <div class="form-group">
+        <label for="adminMusicUrl">Music Audio / Video File URL</label>
+        <input type="text" id="adminMusicUrl" placeholder="picture/video_2026-08-20_10-30-19.mp4">
+        <small style="color: var(--ink-soft); font-size: 0.8rem; margin-top: 0.25rem; display: block;">Supports local .mp4 video files, .mp3, .m4a, or web URLs.</small>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="adminMusicTitle">Track Title</label>
+          <input type="text" id="adminMusicTitle" placeholder="Our Special Melody">
+        </div>
+        <div class="form-group">
+          <label for="adminMusicSubtitle">Track Subtitle</label>
+          <input type="text" id="adminMusicSubtitle" placeholder="Special Keepsake Song • Playing for you">
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. QR CODE FOR YOUR GIFT WEBSITE -->
+    <section class="card">
+      <h2>7. Your Gift QR Code</h2>
       <div class="qr-card-section">
         <p style="font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.75rem;">Scanning this QR code on any
           phone opens your main <code>monthsary.html</code> website directly.</p>
@@ -333,15 +353,18 @@
   <!-- CONFIG & ADMIN LOGIC -->
   <script src="../assets/js/config.js"></script>
   <script>
-    let config = window.ANNIVERSARY_CONFIG;
+    window.config = window.ANNIVERSARY_CONFIG || {};
     let qrCodeObj = null;
 
     function loadForm() {
       document.getElementById('adminPartnerName').value = config.partnerName || '';
       document.getElementById('adminYourName').value = config.yourName || '';
-      document.getElementById('adminMonthsaryDate').value = config.monthsaryDate || '';
+      document.getElementById('adminMonthsaryDate').value = (config.monthsaryDate || '').split('T')[0];
       document.getElementById('adminLetterTitle').value = config.letterTitle || '';
       document.getElementById('adminLetterParagraphs').value = (config.letterParagraphs || []).join('\n\n');
+      document.getElementById('adminMusicUrl').value = config.musicUrl || '';
+      document.getElementById('adminMusicTitle').value = config.musicTitle || '';
+      document.getElementById('adminMusicSubtitle').value = config.musicSubtitle || '';
 
       // Default target URL is index.html location
       const defaultUrl = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
@@ -469,6 +492,9 @@
       config.monthsaryDate = document.getElementById('adminMonthsaryDate').value;
       config.letterTitle = document.getElementById('adminLetterTitle').value;
       config.letterParagraphs = document.getElementById('adminLetterParagraphs').value.split('\n\n').filter(p => p.trim());
+      config.musicUrl = document.getElementById('adminMusicUrl').value.trim();
+      config.musicTitle = document.getElementById('adminMusicTitle').value.trim();
+      config.musicSubtitle = document.getElementById('adminMusicSubtitle').value.trim();
 
       localStorage.setItem('ANNIVERSARY_CUSTOM_CONFIG', JSON.stringify(config));
       window.location.href = "../monthsary.html";

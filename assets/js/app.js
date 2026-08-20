@@ -2,14 +2,26 @@
  * MONTHSARY KEEPSAKE - APPLICATION LOGIC
  */
 
-class AmbientAudioEngine {
-  constructor() {
+class KeepsakeAudioEngine {
+  constructor(musicUrl = null) {
+    this.musicUrl = musicUrl;
+    this.audioElement = null;
     this.ctx = null;
     this.isPlaying = false;
     this.timer = null;
+
+    if (this.musicUrl) {
+      try {
+        this.audioElement = new Audio(this.musicUrl);
+        this.audioElement.loop = true;
+        this.audioElement.preload = 'auto';
+      } catch (err) {
+        console.warn("Could not create audio element:", err);
+      }
+    }
   }
 
-  init() {
+  initSynth() {
     if (this.ctx) return;
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     this.ctx = new AudioCtx();
@@ -44,8 +56,28 @@ class AmbientAudioEngine {
   }
 
   toggle(onStateChange) {
-    this.init();
-    if (this.ctx.state === 'suspended') {
+    // If a media file URL is set, use HTML Audio element
+    if (this.audioElement) {
+      if (!this.isPlaying) {
+        this.audioElement.play().then(() => {
+          this.isPlaying = true;
+          onStateChange(true);
+        }).catch(err => {
+          console.warn("Audio file play blocked or failed, falling back to synth:", err);
+          this.audioElement = null;
+          this.toggle(onStateChange);
+        });
+      } else {
+        this.audioElement.pause();
+        this.isPlaying = false;
+        onStateChange(false);
+      }
+      return;
+    }
+
+    // Fallback: Ambient Synthesizer
+    this.initSynth();
+    if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume();
     }
 
@@ -78,7 +110,7 @@ class AmbientAudioEngine {
 class MonthsaryApp {
   constructor() {
     this.config = window.ANNIVERSARY_CONFIG || {};
-    this.audioEngine = new AmbientAudioEngine();
+    this.audioEngine = new KeepsakeAudioEngine(this.config.musicUrl);
 
     this.initCanvas();
     this.initUI();
@@ -95,6 +127,15 @@ class MonthsaryApp {
     document.getElementById('letterTitle').textContent = cfg.letterTitle || '';
     document.getElementById('letterSalutation').textContent = `My ${cfg.partnerName || 'Dearest'},`;
     document.getElementById('signatureName').textContent = cfg.yourName || 'Always You';
+
+    // Keepsake Audio Info
+    const keepsakeInfo = document.querySelector('.keepsake-info');
+    if (keepsakeInfo) {
+      const strongEl = keepsakeInfo.querySelector('strong');
+      const spanEl = keepsakeInfo.querySelector('span');
+      if (strongEl) strongEl.textContent = cfg.musicTitle || 'Our Special Melody';
+      if (spanEl) spanEl.textContent = cfg.musicSubtitle || 'Special Keepsake Song • Playing for you';
+    }
 
     // Letter Paragraphs
     const paragraphsContainer = document.getElementById('letterParagraphs');
@@ -240,22 +281,13 @@ class MonthsaryApp {
     const envelope = document.getElementById('envelope');
     const letterScene = document.getElementById('letterScene');
 
-    // Open Envelope Action
-    sealBtn.addEventListener('click', () => {
-      envelope.classList.add('open');
-      setTimeout(() => {
-        stage.classList.add('hidden');
-        letterScene.classList.add('visible');
-      }, 700);
-    });
+    // Helper to update Audio UI state
+    const updateAudioUI = (isPlaying) => {
+      const label = document.getElementById('audioLabel');
+      const playBtn = document.getElementById('keepsakePlayBtn');
+      const keepsake = document.getElementById('keepsakePlayer');
 
-    // Audio Play / Pause Handler
-    const handleAudioToggle = () => {
-      this.audioEngine.toggle((isPlaying) => {
-        const label = document.getElementById('audioLabel');
-        const playBtn = document.getElementById('keepsakePlayBtn');
-        const keepsake = document.getElementById('keepsakePlayer');
-
+      if (label && playBtn && keepsake) {
         if (isPlaying) {
           label.textContent = "Pause Music";
           playBtn.textContent = "❚❚";
@@ -265,15 +297,57 @@ class MonthsaryApp {
           playBtn.textContent = "▶";
           keepsake.classList.remove('playing');
         }
-      });
+      }
+    };
+
+    // Open Envelope Action & Start Music Automatically
+    const handleOpenEnvelope = () => {
+      if (envelope.classList.contains('open')) return;
+      envelope.classList.add('open');
+
+      // Auto-start music on opening if not already playing
+      if (!this.audioEngine.isPlaying) {
+        this.audioEngine.toggle(updateAudioUI);
+      }
+
+      setTimeout(() => {
+        stage.classList.add('hidden');
+        letterScene.classList.add('visible');
+      }, 700);
+    };
+
+    sealBtn.addEventListener('click', handleOpenEnvelope);
+    envelope.addEventListener('click', handleOpenEnvelope);
+
+    // Also attempt autoplay immediately on load (will work if browser allows)
+    setTimeout(() => {
+      if (!this.audioEngine.isPlaying) {
+        this.audioEngine.toggle(updateAudioUI);
+      }
+    }, 300);
+
+    // Audio Play / Pause Handler
+    const handleAudioToggle = () => {
+      this.audioEngine.toggle(updateAudioUI);
     };
 
     document.getElementById('audioToggle').addEventListener('click', handleAudioToggle);
     document.getElementById('keepsakePlayBtn').addEventListener('click', handleAudioToggle);
 
     // Lightbox Close
+    const lightboxModal = document.getElementById('lightboxModal');
     document.getElementById('lightboxClose').addEventListener('click', () => {
-      document.getElementById('lightboxModal').classList.remove('active');
+      lightboxModal.classList.remove('active');
+    });
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        lightboxModal.classList.remove('active');
+      }
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+        lightboxModal.classList.remove('active');
+      }
     });
   }
 }
