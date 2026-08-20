@@ -27,10 +27,24 @@ class KeepsakeAudioEngine {
       this.mediaElement.volume = 1.0;
       this.mediaElement.muted = false;
       if (this.musicUrl && !this.mediaElement.src.includes(this.musicUrl)) {
-        this.mediaElement.src = this.musicUrl;
-      }
+    // Continuous infinite loop listeners
+    if (this.mediaElement) {
+      this.mediaElement.loop = true;
+      this.mediaElement.addEventListener('ended', () => {
+        if (this.isPlaying) {
+          this.mediaElement.currentTime = 0;
+          this.mediaElement.play().catch(() => {});
+        }
+      });
+      // Prevent browser throttling interruption
+      this.mediaElement.addEventListener('pause', () => {
+        // If it was supposed to be playing and reached end, restart
+        if (this.isPlaying && this.mediaElement.currentTime >= (this.mediaElement.duration - 0.5)) {
+          this.mediaElement.currentTime = 0;
+          this.mediaElement.play().catch(() => {});
+        }
+      });
     }
-    this.isPlaying = false;
   }
 
   toggle(onStateChange) {
@@ -41,6 +55,7 @@ class KeepsakeAudioEngine {
     if (this.mediaElement) {
       this.mediaElement.muted = false;
       this.mediaElement.volume = 1.0;
+      this.mediaElement.loop = true;
 
       if (!this.isPlaying) {
         const playPromise = this.mediaElement.play();
