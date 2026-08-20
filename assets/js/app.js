@@ -3,88 +3,61 @@
  */
 
 class KeepsakeAudioEngine {
-  constructor(musicUrl = null) {
-    this.musicUrl = musicUrl;
-    this.mediaElement = null;
-    this.ctx = null;
-    this.isPlaying = false;
-    this.timer = null;
+  constructor(musicUrl = "picture/music.mp4") {
+    this.musicUrl = musicUrl || "picture/music.mp4";
+    this.mediaElement = document.getElementById('bgAudioMedia');
 
-    if (this.musicUrl) {
+    if (!this.mediaElement) {
       try {
         const isVideo = /\.(mp4|webm|mov|m4v)$/i.test(this.musicUrl);
         this.mediaElement = document.createElement(isVideo ? 'video' : 'audio');
+        this.mediaElement.id = 'bgAudioMedia';
         this.mediaElement.src = this.musicUrl;
         this.mediaElement.loop = true;
         this.mediaElement.preload = 'auto';
         this.mediaElement.setAttribute('playsinline', '');
         this.mediaElement.setAttribute('webkit-playsinline', '');
-        this.mediaElement.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0.01;pointer-events:none;z-index:-1;';
+        this.mediaElement.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0.001;pointer-events:none;z-index:-1;';
         document.body.appendChild(this.mediaElement);
       } catch (err) {
         console.warn("Could not create media element:", err);
       }
+    } else {
+      // Ensure volume is up and unmuted
+      this.mediaElement.volume = 1.0;
+      this.mediaElement.muted = false;
+      if (this.musicUrl && !this.mediaElement.src.includes(this.musicUrl)) {
+        this.mediaElement.src = this.musicUrl;
+      }
     }
-  }
-
-  initSynth() {
-    if (this.ctx) return;
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    this.ctx = new AudioCtx();
-  }
-
-  playChord(freqs, duration = 3.5) {
-    if (!this.ctx) return;
-
-    freqs.forEach(freq => {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-
-      filter.type = 'lowpass';
-      filter.frequency.value = 1200;
-
-      const now = this.ctx.currentTime;
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.08, now + 1.2);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + duration);
-    });
+    this.isPlaying = false;
   }
 
   toggle(onStateChange) {
-    // If a media file URL is set, use HTML media element (video or audio)
+    if (!this.mediaElement) {
+      this.mediaElement = document.getElementById('bgAudioMedia');
+    }
+
     if (this.mediaElement) {
+      this.mediaElement.muted = false;
+      this.mediaElement.volume = 1.0;
+
       if (!this.isPlaying) {
         const playPromise = this.mediaElement.play();
         if (playPromise !== undefined) {
           playPromise.then(() => {
             this.isPlaying = true;
-            onStateChange(true);
+            if (onStateChange) onStateChange(true);
           }).catch(err => {
             console.warn("Media play error:", err);
-            // Fallback to synth if file fails
-            this.playSynthFallback(onStateChange);
           });
         }
       } else {
         this.mediaElement.pause();
         this.isPlaying = false;
-        onStateChange(false);
+        if (onStateChange) onStateChange(false);
       }
-      return;
     }
-
-    this.playSynthFallback(onStateChange);
   }
 
   playSynthFallback(onStateChange) {

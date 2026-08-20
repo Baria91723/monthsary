@@ -50,3 +50,8 @@ try {
 } catch (e) {
   console.warn("Could not load custom local config", e);
 }
+
+// Ensure musicUrl is always defined
+if (!window.ANNIVERSARY_CONFIG.musicUrl) {
+  window.ANNIVERSARY_CONFIG.musicUrl = "picture/music.mp4";
+}
