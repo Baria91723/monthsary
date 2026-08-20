@@ -5,18 +5,24 @@
 class KeepsakeAudioEngine {
   constructor(musicUrl = null) {
     this.musicUrl = musicUrl;
-    this.audioElement = null;
+    this.mediaElement = null;
     this.ctx = null;
     this.isPlaying = false;
     this.timer = null;
 
     if (this.musicUrl) {
       try {
-        this.audioElement = new Audio(this.musicUrl);
-        this.audioElement.loop = true;
-        this.audioElement.preload = 'auto';
+        const isVideo = /\.(mp4|webm|mov|m4v)$/i.test(this.musicUrl);
+        this.mediaElement = document.createElement(isVideo ? 'video' : 'audio');
+        this.mediaElement.src = this.musicUrl;
+        this.mediaElement.loop = true;
+        this.mediaElement.preload = 'auto';
+        this.mediaElement.setAttribute('playsinline', '');
+        this.mediaElement.setAttribute('webkit-playsinline', '');
+        this.mediaElement.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0.01;pointer-events:none;z-index:-1;';
+        document.body.appendChild(this.mediaElement);
       } catch (err) {
-        console.warn("Could not create audio element:", err);
+        console.warn("Could not create media element:", err);
       }
     }
   }
@@ -56,26 +62,32 @@ class KeepsakeAudioEngine {
   }
 
   toggle(onStateChange) {
-    // If a media file URL is set, use HTML Audio element
-    if (this.audioElement) {
+    // If a media file URL is set, use HTML media element (video or audio)
+    if (this.mediaElement) {
       if (!this.isPlaying) {
-        this.audioElement.play().then(() => {
-          this.isPlaying = true;
-          onStateChange(true);
-        }).catch(err => {
-          console.warn("Audio file play blocked or failed, falling back to synth:", err);
-          this.audioElement = null;
-          this.toggle(onStateChange);
-        });
+        const playPromise = this.mediaElement.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            this.isPlaying = true;
+            onStateChange(true);
+          }).catch(err => {
+            console.warn("Media play error:", err);
+            // Fallback to synth if file fails
+            this.playSynthFallback(onStateChange);
+          });
+        }
       } else {
-        this.audioElement.pause();
+        this.mediaElement.pause();
         this.isPlaying = false;
         onStateChange(false);
       }
       return;
     }
 
-    // Fallback: Ambient Synthesizer
+    this.playSynthFallback(onStateChange);
+  }
+
+  playSynthFallback(onStateChange) {
     this.initSynth();
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume();
