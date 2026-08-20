@@ -1,370 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard — Anniversary Keepsake</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Monthsary Keepsake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono&display=swap"
+    rel="stylesheet">
 
-<!-- Lightweight QRCode JS library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Lightweight QRCode JS library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<style>
-  :root {
-    --bg: #F8F4EE;
-    --card: #FFFFFF;
-    --ink: #241F1A;
-    --ink-soft: #5D5346;
-    --rose-deep: #7D2D3F;
-    --rose-light: #F4E8EB;
-    --gold: #B89255;
-    --border: rgba(36, 31, 26, 0.12);
-    --shadow: 0 10px 30px -10px rgba(36, 31, 26, 0.1);
-    --radius: 12px;
-  }
+  <style>
+    :root {
+      --bg: #F8F4EE;
+      --card: #FFFFFF;
+      --ink: #241F1A;
+      --ink-soft: #5D5346;
+      --rose-deep: #7D2D3F;
+      --rose-light: #F4E8EB;
+      --gold: #B89255;
+      --border: rgba(36, 31, 26, 0.12);
+      --shadow: 0 10px 30px -10px rgba(36, 31, 26, 0.1);
+      --radius: 12px;
+    }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    padding: 2rem 1rem;
-    line-height: 1.5;
-  }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 2rem 1rem;
+      line-height: 1.5;
+    }
 
-  .admin-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
+    .admin-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--rose-deep);
-  }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--rose-deep);
+    }
 
-  .header h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 2rem;
-    color: var(--rose-deep);
-    font-style: italic;
-  }
+    .header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      color: var(--rose-deep);
+      font-style: italic;
+    }
 
-  .view-btn {
-    background: var(--rose-deep);
-    color: #FFF;
-    padding: 0.6rem 1.2rem;
-    border-radius: 999px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
+    .view-btn {
+      background: var(--rose-deep);
+      color: #FFF;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-  .view-btn:hover {
-    background: #5C1D2C;
-  }
+    .view-btn:hover {
+      background: #5C1D2C;
+    }
 
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow);
-  }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
 
-  .card h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.35rem;
-    color: var(--rose-deep);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
-  }
+    .card h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      color: var(--rose-deep);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-  .form-group {
-    margin-bottom: 1.25rem;
-  }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
 
-  .form-group label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--ink-soft);
-    margin-bottom: 0.4rem;
-  }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-soft);
+      margin-bottom: 0.4rem;
+    }
 
-  .form-group input, .form-group textarea {
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    color: var(--ink);
-    background: #FAF7F2;
-  }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: #FAF7F2;
+    }
 
-  .form-group textarea {
-    min-height: 110px;
-    resize: vertical;
-  }
+    .form-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
 
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
 
-  @media (max-width: 600px) {
-    .grid-2 { grid-template-columns: 1fr; }
-  }
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
 
-  .dynamic-list-item {
-    background: #FAF7F2;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    position: relative;
-  }
+    .dynamic-list-item {
+      background: #FAF7F2;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
 
-  .delete-btn {
-    position: absolute;
-    top: 0.75rem; right: 0.75rem;
-    background: #FF4D4D;
-    color: #FFF;
-    border: none;
-    border-radius: 4px;
-    padding: 0.25rem 0.6rem;
-    font-size: 0.75rem;
-    cursor: pointer;
-  }
+    .delete-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #FF4D4D;
+      color: #FFF;
+      border: none;
+      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
 
-  .add-item-btn {
-    background: #EFE3D0;
-    color: var(--rose-deep);
-    border: 1px dashed var(--rose-deep);
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 0.5rem;
-  }
+    .add-item-btn {
+      background: #EFE3D0;
+      color: var(--rose-deep);
+      border: 1px dashed var(--rose-deep);
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
 
-  /* QR Box Styling */
-  .qr-card-section {
-    text-align: center;
-    background: #FAF7F2;
-    border: 1px dashed var(--rose-deep);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-  }
+    /* QR Box Styling */
+    .qr-card-section {
+      text-align: center;
+      background: #FAF7F2;
+      border: 1px dashed var(--rose-deep);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
 
-  #adminQrcode {
-    display: inline-block;
-    padding: 14px;
-    background: #FFFFFF;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    margin: 1rem 0;
-  }
+    #adminQrcode {
+      display: inline-block;
+      padding: 14px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin: 1rem 0;
+    }
 
-  #adminQrcode img { display: block; margin: 0 auto; }
+    #adminQrcode img {
+      display: block;
+      margin: 0 auto;
+    }
 
-  .actions-bar {
-    position: sticky;
-    bottom: 1rem;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: center;
-  }
+    .actions-bar {
+      position: sticky;
+      bottom: 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  .save-btn {
-    background: #2E7D32;
-    color: #FFF;
-    border: none;
-    padding: 0.85rem 1.8rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
+    .save-btn {
+      background: #2E7D32;
+      color: #FFF;
+      border: none;
+      padding: 0.85rem 1.8rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
 
-  .save-btn:hover { background: #1B5E20; }
+    .save-btn:hover {
+      background: #1B5E20;
+    }
 
-  .reset-btn {
-    background: #757575;
-    color: #FFF;
-    border: none;
-    padding: 0.85rem 1.2rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    cursor: pointer;
-  }
-</style>
+    .reset-btn {
+      background: #757575;
+      color: #FFF;
+      border: none;
+      padding: 0.85rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="admin-container">
-  <header class="header">
-    <div>
-      <h1>Anniversary Admin Panel</h1>
-      <p style="font-size: 0.85rem; color: var(--ink-soft);">Customize any text, dates, photos, and notes on your website.</p>
-    </div>
-    <a href="../monthsary.html" class="view-btn">View Site ↗</a>
-  </header>
+  <div class="admin-container">
+    <header class="header">
+      <div>
+        <h1>Monthsary Admin Panel</h1>
+        <p style="font-size: 0.85rem; color: var(--ink-soft);">Customize any text, dates, photos, and notes on your
+          website.</p>
+      </div>
+      <a href="../monthsary.html" class="view-btn">View Site ↗</a>
+    </header>
 
-  <!-- 1. GENERAL INFORMATION -->
-  <section class="card">
-    <h2>1. Basic Information</h2>
-    <div class="grid-2">
-      <div class="form-group">
-        <label for="adminPartnerName">Partner's Name</label>
-        <input type="text" id="adminPartnerName">
+    <!-- 1. GENERAL INFORMATION -->
+    <section class="card">
+      <h2>1. Basic Information</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="adminPartnerName">Partner's Name</label>
+          <input type="text" id="adminPartnerName">
+        </div>
+        <div class="form-group">
+          <label for="adminYourName">Your Signature Name</label>
+          <input type="text" id="adminYourName">
+        </div>
       </div>
       <div class="form-group">
-        <label for="adminYourName">Your Signature Name</label>
-        <input type="text" id="adminYourName">
+        <label for="adminMonthsaryDate">Monthsary Date</label>
+        <input type="date" id="adminMonthsaryDate">
       </div>
-    </div>
-    <div class="form-group">
-      <label for="adminAnniversaryDate">Anniversary Date</label>
-      <input type="date" id="adminAnniversaryDate">
-    </div>
-  </section>
+    </section>
 
-  <!-- 2. LETTER CONTENT -->
-  <section class="card">
-    <h2>2. Main Letter Content</h2>
-    <div class="form-group">
-      <label for="adminLetterTitle">Heading Title</label>
-      <input type="text" id="adminLetterTitle">
-    </div>
-    <div class="form-group">
-      <label for="adminLetterParagraphs">Letter Paragraphs (Separate each paragraph with an empty line)</label>
-      <textarea id="adminLetterParagraphs"></textarea>
-    </div>
-  </section>
-
-  <!-- 3. TIMELINE MILESTONES -->
-  <section class="card">
-    <h2>3. Our Journey Timeline</h2>
-    <div id="timelineList"></div>
-    <button class="add-item-btn" id="addTimelineBtn">+ Add Timeline Milestone</button>
-  </section>
-
-  <!-- 4. REASONS WHY I LOVE YOU -->
-  <section class="card">
-    <h2>4. Why I Love You (Flip Cards)</h2>
-    <div id="reasonsList"></div>
-    <button class="add-item-btn" id="addReasonBtn">+ Add Secret Card</button>
-  </section>
-
-  <!-- 5. POLAROID PHOTOS -->
-  <section class="card">
-    <h2>5. Polaroid Memories</h2>
-    <div id="photosList"></div>
-    <button class="add-item-btn" id="addPhotoBtn">+ Add Photo</button>
-  </section>
-
-  <!-- 6. QR CODE FOR YOUR GIFT WEBSITE -->
-  <section class="card">
-    <h2>6. Your Gift QR Code</h2>
-    <div class="qr-card-section">
-      <p style="font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.75rem;">Scanning this QR code on any phone opens your main <code>monthsary.html</code> website directly.</p>
-      
-      <div class="form-group" style="max-width: 500px; margin: 0 auto 1rem;">
-        <label for="qrTargetUrl">Target Public Web Link</label>
-        <input type="text" id="qrTargetUrl" placeholder="https://your-app.netlify.app">
+    <!-- 2. LETTER CONTENT -->
+    <section class="card">
+      <h2>2. Main Letter Content</h2>
+      <div class="form-group">
+        <label for="adminLetterTitle">Heading Title</label>
+        <input type="text" id="adminLetterTitle">
       </div>
+      <div class="form-group">
+        <label for="adminLetterParagraphs">Letter Paragraphs (Separate each paragraph with an empty line)</label>
+        <textarea id="adminLetterParagraphs"></textarea>
+      </div>
+    </section>
 
-      <div id="adminQrcode"></div>
+    <!-- 3. TIMELINE MILESTONES -->
+    <section class="card">
+      <h2>3. Our Journey Timeline</h2>
+      <div id="timelineList"></div>
+      <button class="add-item-btn" id="addTimelineBtn">+ Add Timeline Milestone</button>
+    </section>
+
+    <!-- 4. REASONS WHY I LOVE YOU -->
+    <section class="card">
+      <h2>4. Why I Love You (Flip Cards)</h2>
+      <div id="reasonsList"></div>
+      <button class="add-item-btn" id="addReasonBtn">+ Add Secret Card</button>
+    </section>
+
+    <!-- 5. POLAROID PHOTOS -->
+    <section class="card">
+      <h2>5. Polaroid Memories</h2>
+      <div id="photosList"></div>
+      <button class="add-item-btn" id="addPhotoBtn">+ Add Photo</button>
+    </section>
+
+    <!-- 6. QR CODE FOR YOUR GIFT WEBSITE -->
+    <section class="card">
+      <h2>6. Your Gift QR Code</h2>
+      <div class="qr-card-section">
+        <p style="font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.75rem;">Scanning this QR code on any
+          phone opens your main <code>monthsary.html</code> website directly.</p>
+
+        <div class="form-group" style="max-width: 500px; margin: 0 auto 1rem;">
+          <label for="qrTargetUrl">Target Public Web Link</label>
+          <input type="text" id="qrTargetUrl" placeholder="https://your-app.netlify.app">
+        </div>
+
+        <div id="adminQrcode"></div>
+      </div>
+    </section>
+
+    <!-- ACTIONS BAR -->
+    <div class="actions-bar">
+      <button class="reset-btn" id="resetDefaultsBtn">Reset Defaults</button>
+      <button class="save-btn" id="saveAdminBtn">Save & View Site</button>
     </div>
-  </section>
-
-  <!-- ACTIONS BAR -->
-  <div class="actions-bar">
-    <button class="reset-btn" id="resetDefaultsBtn">Reset Defaults</button>
-    <button class="save-btn" id="saveAdminBtn">Save & View Site</button>
   </div>
-</div>
 
-<!-- CONFIG & ADMIN LOGIC -->
-<script src="../assets/js/config.js"></script>
-<script>
-  let config = window.ANNIVERSARY_CONFIG;
-  let qrCodeObj = null;
+  <!-- CONFIG & ADMIN LOGIC -->
+  <script src="../assets/js/config.js"></script>
+  <script>
+    let config = window.ANNIVERSARY_CONFIG;
+    let qrCodeObj = null;
 
-  function loadForm() {
-    document.getElementById('adminPartnerName').value = config.partnerName || '';
-    document.getElementById('adminYourName').value = config.yourName || '';
-    document.getElementById('adminAnniversaryDate').value = config.anniversaryDate || '';
-    document.getElementById('adminLetterTitle').value = config.letterTitle || '';
-    document.getElementById('adminLetterParagraphs').value = (config.letterParagraphs || []).join('\n\n');
+    function loadForm() {
+      document.getElementById('adminPartnerName').value = config.partnerName || '';
+      document.getElementById('adminYourName').value = config.yourName || '';
+      document.getElementById('adminMonthsaryDate').value = config.monthsaryDate || '';
+      document.getElementById('adminLetterTitle').value = config.letterTitle || '';
+      document.getElementById('adminLetterParagraphs').value = (config.letterParagraphs || []).join('\n\n');
 
-    // Default target URL is index.html location
-    const defaultUrl = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
-    const targetUrlInput = document.getElementById('qrTargetUrl');
-    targetUrlInput.value = localStorage.getItem('ANNIVERSARY_QR_URL') || defaultUrl;
+      // Default target URL is index.html location
+      const defaultUrl = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
+      const targetUrlInput = document.getElementById('qrTargetUrl');
+      targetUrlInput.value = localStorage.getItem('ANNIVERSARY_QR_URL') || defaultUrl;
 
-    targetUrlInput.addEventListener('input', updateQRCode);
+      targetUrlInput.addEventListener('input', updateQRCode);
 
-    renderTimelineList();
-    renderReasonsList();
-    renderPhotosList();
-    updateQRCode();
-  }
-
-  function updateQRCode() {
-    const targetUrlInput = document.getElementById('qrTargetUrl');
-    let url = targetUrlInput.value.trim();
-    if (!url) {
-      url = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
+      renderTimelineList();
+      renderReasonsList();
+      renderPhotosList();
+      updateQRCode();
     }
-    localStorage.setItem('ANNIVERSARY_QR_URL', url);
 
-    const box = document.getElementById('adminQrcode');
-    box.innerHTML = '';
-    new QRCode(box, {
-      text: url,
-      width: 160,
-      height: 160,
-      colorDark: "#7D2D3F",
-      colorLight: "#FFFFFF"
-    });
-  }
+    function updateQRCode() {
+      const targetUrlInput = document.getElementById('qrTargetUrl');
+      let url = targetUrlInput.value.trim();
+      if (!url) {
+        url = window.location.origin + window.location.pathname.replace(/\/admin\/admin\.html$/, '/monthsary.html');
+      }
+      localStorage.setItem('ANNIVERSARY_QR_URL', url);
 
-  // Render Dynamic Timeline Form
-  function renderTimelineList() {
-    const list = document.getElementById('timelineList');
-    list.innerHTML = '';
-    (config.timeline || []).forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = 'dynamic-list-item';
-      div.innerHTML = `
+      const box = document.getElementById('adminQrcode');
+      box.innerHTML = '';
+      new QRCode(box, {
+        text: url,
+        width: 160,
+        height: 160,
+        colorDark: "#7D2D3F",
+        colorLight: "#FFFFFF"
+      });
+    }
+
+    // Render Dynamic Timeline Form
+    function renderTimelineList() {
+      const list = document.getElementById('timelineList');
+      list.innerHTML = '';
+      (config.timeline || []).forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'dynamic-list-item';
+        div.innerHTML = `
         <button class="delete-btn" onclick="removeTimeline(${index})">Delete</button>
         <div class="grid-2" style="margin-bottom:0.5rem;">
           <input type="text" placeholder="Date Label (e.g. Day One)" value="${item.date}" onchange="config.timeline[${index}].date = this.value">
@@ -372,28 +390,28 @@
         </div>
         <input type="text" placeholder="Description" value="${item.desc}" onchange="config.timeline[${index}].desc = this.value">
       `;
-      list.appendChild(div);
+        list.appendChild(div);
+      });
+    }
+
+    function removeTimeline(index) {
+      config.timeline.splice(index, 1);
+      renderTimelineList();
+    }
+
+    document.getElementById('addTimelineBtn').addEventListener('click', () => {
+      config.timeline.push({ date: "New Date", title: "New Milestone", desc: "Description here..." });
+      renderTimelineList();
     });
-  }
 
-  function removeTimeline(index) {
-    config.timeline.splice(index, 1);
-    renderTimelineList();
-  }
-
-  document.getElementById('addTimelineBtn').addEventListener('click', () => {
-    config.timeline.push({ date: "New Date", title: "New Milestone", desc: "Description here..." });
-    renderTimelineList();
-  });
-
-  // Render Dynamic Reasons Form
-  function renderReasonsList() {
-    const list = document.getElementById('reasonsList');
-    list.innerHTML = '';
-    (config.reasons || []).forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = 'dynamic-list-item';
-      div.innerHTML = `
+    // Render Dynamic Reasons Form
+    function renderReasonsList() {
+      const list = document.getElementById('reasonsList');
+      list.innerHTML = '';
+      (config.reasons || []).forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'dynamic-list-item';
+        div.innerHTML = `
         <button class="delete-btn" onclick="removeReason(${index})">Delete</button>
         <div class="grid-2" style="margin-bottom:0.5rem;">
           <input type="text" placeholder="Number (e.g. 01)" value="${item.num}" onchange="config.reasons[${index}].num = this.value">
@@ -401,70 +419,71 @@
         </div>
         <input type="text" placeholder="Back Secret Note" value="${item.full}" onchange="config.reasons[${index}].full = this.value">
       `;
-      list.appendChild(div);
+        list.appendChild(div);
+      });
+    }
+
+    function removeReason(index) {
+      config.reasons.splice(index, 1);
+      renderReasonsList();
+    }
+
+    document.getElementById('addReasonBtn').addEventListener('click', () => {
+      const nextNum = String(config.reasons.length + 1).padStart(2, '0');
+      config.reasons.push({ num: nextNum, short: "New Reason", full: "Your note text..." });
+      renderReasonsList();
     });
-  }
 
-  function removeReason(index) {
-    config.reasons.splice(index, 1);
-    renderReasonsList();
-  }
-
-  document.getElementById('addReasonBtn').addEventListener('click', () => {
-    const nextNum = String(config.reasons.length + 1).padStart(2, '0');
-    config.reasons.push({ num: nextNum, short: "New Reason", full: "Your note text..." });
-    renderReasonsList();
-  });
-
-  // Render Dynamic Photos Form
-  function renderPhotosList() {
-    const list = document.getElementById('photosList');
-    list.innerHTML = '';
-    (config.photos || []).forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = 'dynamic-list-item';
-      div.innerHTML = `
+    // Render Dynamic Photos Form
+    function renderPhotosList() {
+      const list = document.getElementById('photosList');
+      list.innerHTML = '';
+      (config.photos || []).forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'dynamic-list-item';
+        div.innerHTML = `
         <button class="delete-btn" onclick="removePhoto(${index})">Delete</button>
         <div class="form-group" style="margin-bottom:0.5rem;">
           <input type="text" placeholder="Image URL (Unsplash or Imgur link)" value="${item.url}" onchange="config.photos[${index}].url = this.value">
         </div>
         <input type="text" placeholder="Photo Caption" value="${item.caption}" onchange="config.photos[${index}].caption = this.value">
       `;
-      list.appendChild(div);
-    });
-  }
-
-  function removePhoto(index) {
-    config.photos.splice(index, 1);
-    renderPhotosList();
-  }
-
-  document.getElementById('addPhotoBtn').addEventListener('click', () => {
-    config.photos.push({ url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80", caption: "New Memory" });
-    renderPhotosList();
-  });
-
-  // Save & View logic
-  document.getElementById('saveAdminBtn').addEventListener('click', () => {
-    config.partnerName = document.getElementById('adminPartnerName').value;
-    config.yourName = document.getElementById('adminYourName').value;
-    config.anniversaryDate = document.getElementById('adminAnniversaryDate').value;
-    config.letterTitle = document.getElementById('adminLetterTitle').value;
-    config.letterParagraphs = document.getElementById('adminLetterParagraphs').value.split('\n\n').filter(p => p.trim());
-
-    localStorage.setItem('ANNIVERSARY_CUSTOM_CONFIG', JSON.stringify(config));
-    window.location.href = "../monthsary.html";
-  });
-
-  // Reset logic
-  document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
-    if (confirm("Reset back to original template defaults?")) {
-      localStorage.removeItem('ANNIVERSARY_CUSTOM_CONFIG');
-      location.reload();
+        list.appendChild(div);
+      });
     }
-  });
 
-  document.addEventListener('DOMContentLoaded', loadForm);
-</script>
+    function removePhoto(index) {
+      config.photos.splice(index, 1);
+      renderPhotosList();
+    }
+
+    document.getElementById('addPhotoBtn').addEventListener('click', () => {
+      config.photos.push({ url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80", caption: "New Memory" });
+      renderPhotosList();
+    });
+
+    // Save & View logic
+    document.getElementById('saveAdminBtn').addEventListener('click', () => {
+      config.partnerName = document.getElementById('adminPartnerName').value;
+      config.yourName = document.getElementById('adminYourName').value;
+      config.monthsaryDate = document.getElementById('adminMonthsaryDate').value;
+      config.letterTitle = document.getElementById('adminLetterTitle').value;
+      config.letterParagraphs = document.getElementById('adminLetterParagraphs').value.split('\n\n').filter(p => p.trim());
+
+      localStorage.setItem('ANNIVERSARY_CUSTOM_CONFIG', JSON.stringify(config));
+      window.location.href = "../monthsary.html";
+    });
+
+    // Reset logic
+    document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
+      if (confirm("Reset back to original template defaults?")) {
+        localStorage.removeItem('ANNIVERSARY_CUSTOM_CONFIG');
+        location.reload();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadForm);
+  </script>
 </body>
+
 </html>

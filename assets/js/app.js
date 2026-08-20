@@ -1,5 +1,5 @@
 /**
- * ANNIVERSARY KEEPSAKE - APPLICATION LOGIC
+ * MONTHSARY KEEPSAKE - APPLICATION LOGIC
  */
 
 class AmbientAudioEngine {
@@ -75,7 +75,7 @@ class AmbientAudioEngine {
   }
 }
 
-class AnniversaryApp {
+class MonthsaryApp {
   constructor() {
     this.config = window.ANNIVERSARY_CONFIG || {};
     this.audioEngine = new AmbientAudioEngine();
@@ -91,7 +91,7 @@ class AnniversaryApp {
 
     // Header & Tags
     document.getElementById('envelopeToTag').textContent = `To: ${cfg.partnerName || 'My Love'}`;
-    document.getElementById('envelopeDateTag').textContent = `Est. ${(cfg.anniversaryDate || '2023').split('-')[0]}`;
+    document.getElementById('envelopeDateTag').textContent = `Est. ${(cfg.monthsaryDate || '2026').split('-')[0]}`;
     document.getElementById('letterTitle').textContent = cfg.letterTitle || '';
     document.getElementById('letterSalutation').textContent = `My ${cfg.partnerName || 'Dearest'},`;
     document.getElementById('signatureName').textContent = cfg.yourName || 'Always You';
@@ -160,7 +160,7 @@ class AnniversaryApp {
 
   startCounter() {
     const update = () => {
-      const start = new Date(this.config.anniversaryDate || "2023-08-11").getTime();
+      const start = new Date(this.config.monthsaryDate || "2026-06-30T02:08:00").getTime();
       const now = new Date().getTime();
       const diff = Math.max(0, now - start);
 
@@ -279,5 +279,5 @@ class AnniversaryApp {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.app = new AnniversaryApp();
+  window.app = new MonthsaryApp();
 });
