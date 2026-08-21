@@ -8,11 +8,11 @@ window.ANNIVERSARY_CONFIG = {
   monthsaryDate: "2026-06-30T02:08:00",
   letterTitle: "Happy 2nd monthsary, hon! 🎉",
   letterParagraphs: [
-    "Okay so this is officially the first time I'm giving you something like this, and honestly, I wanted it to be something you'd actually feel — not just words on a screen, but a little piece of how much you mean to me.",
-    "Two months in and I still think about the fact that out of everyone, I get to be the one who makes you laugh, who gets your good morning texts, who gets to call you mine. That's honestly kind of unfair to everyone else, ngl.",
-    "I know you've been working so hard with your OJT lately — juggling that on top of everything else — and I just want you to know I see it, and I'm proud of you for pushing through even when it's tiring.",
-    "And I'm sorry, hon. I know I've made the same mistake again, and I know that's frustrating, especially when you're already carrying so much. I'm not going to make excuses — I just want to do better, and I'm working on it, for real.",
-    "I love you, hon. I always love you — even on the hard days, even when I mess up, even when things get a little rocky. That doesn't change how much you mean to me.",
+    "Okay so this is officially the first time I'm giving you something like this, and honestly, I wanted it to be something you'd actually feel not just words on a screen, but a little piece of how much you mean to me.",
+    "Two months in, and I still low-key can't believe I'm the one who makes you laugh, who gets your good morning texts, who gets to call you mine. Sorry to everyone else, but I'm not sharing.",
+    "I know you've been working so hard with your OJT lately juggling that on top of everything else and I just want you to know I see it, and I'm proud of you for pushing through even when it's tiring.",
+    "And I'm sorry, hon. I know I've made the same mistake again, and I know that's frustrating, especially when you're already carrying so much. I'm not going to make excuses, I just want to do better, and I'm working on it, for real.",
+    "I love you, hon. I always love you even on the hard days, even when I mess up, even when things get a little rocky. That doesn't change how much you mean to me.",
     "So here's to us, to more monthsaries, more random conversations that somehow turn into an hour-long chismis session, more rants that turn into laughing about nothing, more inside jokes no one else will ever get, and to figuring things out together, one day at a time.",
     "I love you. Always have, always will."
   ],
